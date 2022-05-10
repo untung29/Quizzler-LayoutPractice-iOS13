@@ -10,7 +10,8 @@ import Foundation
 
 struct QuizBrain {
     var questionNumber = 0;
-
+    var score = 0;
+    
     let quiz = [
         Question(q: "A slug's blood is green.", a: "True"),
         Question(q: "Approximately one quarter of human bones are in the feet.", a: "True"),
@@ -29,12 +30,37 @@ struct QuizBrain {
     // External parameter: answer (to be used elsewhere)
     // When you use _ as external parameter, you don't have to specify the parameter name when you use it
     // Internal parameter: userAnswer (to be used inside of the method)
-    func checkAnswer(_ userAnswer: String) {
+    mutating func checkAnswer(_ userAnswer: String) -> Bool {
         if userAnswer == quiz[questionNumber].answer {
             // Right answer
+            score = score + 1;
+            return true
         } else {
             // Wrong
+            return false
         }
     }
+    
+    func getQuestionText() -> String {
+        return quiz[questionNumber].text;
+    }
+    
+    func getProgress() -> Float {
+        return Float(questionNumber + 1) / Float(quiz.count);
+    }
+    
+    mutating func nextQuestion() {
+        if (questionNumber < (quiz.count - 1)) {
+            self.questionNumber = questionNumber + 1;
+        } else {
+            self.questionNumber = 0;
+            self.score = 0;
+        }
+    }
+    
+     func getScore() -> Int {
+        return score;
+    }
+    
     
 }

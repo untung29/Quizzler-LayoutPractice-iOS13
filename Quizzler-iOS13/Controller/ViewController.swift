@@ -10,6 +10,7 @@ import UIKit
 
 class ViewController: UIViewController {
     
+    @IBOutlet weak var scoreLabel: UILabel!
     @IBOutlet weak var progessBar: UIProgressView!
     @IBOutlet weak var questionLabel: UILabel!
     @IBOutlet weak var falseButton: UIButton!
@@ -27,50 +28,47 @@ class ViewController: UIViewController {
     
     @IBAction func answerButtonPressed(_ sender: UIButton) {
         let userAnswer = sender.currentTitle!; // True / False
-        quizBrain.checkAnswer(userAnswer)
+        let userGotItRight = quizBrain.checkAnswer(userAnswer)
         
         
         // Checking the answer
-        if (userAnswer == actualAnswer) {
+        if (userGotItRight) {
             sender.backgroundColor = UIColor.green
         } else {
             sender.backgroundColor = UIColor.red
         }
         
-        // Question progression logic
-        if (questionNumber < (quiz.count - 1)) {
-            questionNumber = questionNumber + 1;
-        } else {
-            questionNumber = 0;
-        }
+        quizBrain.nextQuestion();
         
-       Timer.scheduledTimer(timeInterval: 0.2, target: self, selector: #selector(updateUI), userInfo: nil, repeats: false);
+        Timer.scheduledTimer(timeInterval: 0.2, target: self, selector: #selector(updateUI), userInfo: nil, repeats: false);
         
-       
+        
         
         
     }
     
     @objc func updateUI() {
-        questionLabel.text = quiz[questionNumber].text;
-//        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-//            self.trueButton.backgroundColor = UIColor.clear;
-//            self.falseButton.backgroundColor = UIColor.clear;
-//        }
+        questionLabel.text = quizBrain.getQuestionText();
+        //        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+        //            self.trueButton.backgroundColor = UIColor.clear;
+        //            self.falseButton.backgroundColor = UIColor.clear;
+        //        }
+        
+        scoreLabel.text = "Score: \(quizBrain.getScore())";
         
         trueButton.backgroundColor = UIColor.clear;
         falseButton.backgroundColor = UIColor.clear;
         
         // Showing the progress bar based on the number of questions answered
-        progessBar.progress = Float(questionNumber + 1) / Float(quiz.count);
+        progessBar.progress = quizBrain.getProgress();
     }
     
-
     
     
     
     
     
-
+    
+    
 }
 
