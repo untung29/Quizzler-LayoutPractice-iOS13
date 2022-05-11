@@ -13,8 +13,9 @@ class ViewController: UIViewController {
     @IBOutlet weak var scoreLabel: UILabel!
     @IBOutlet weak var progessBar: UIProgressView!
     @IBOutlet weak var questionLabel: UILabel!
-    @IBOutlet weak var falseButton: UIButton!
-    @IBOutlet weak var trueButton: UIButton!
+    @IBOutlet weak var choiceOne: UIButton!
+    @IBOutlet weak var choiceTwo: UIButton!
+    @IBOutlet weak var choiceThree: UIButton!
     
     var quizBrain = QuizBrain()
     
@@ -54,10 +55,19 @@ class ViewController: UIViewController {
         //            self.falseButton.backgroundColor = UIColor.clear;
         //        }
         
+        
+        
         scoreLabel.text = "Score: \(quizBrain.getScore())";
         
-        trueButton.backgroundColor = UIColor.clear;
-        falseButton.backgroundColor = UIColor.clear;
+        // Set the button text with choices answer
+        choiceOne.setTitle(quizBrain.getAnswer(optionNumber: 0), for: .normal)
+        choiceTwo.setTitle(quizBrain.getAnswer(optionNumber: 1), for: .normal);
+        choiceThree.setTitle(quizBrain.getAnswer(optionNumber: 2), for: .normal);
+
+        choiceOne.backgroundColor = UIColor.clear;
+        choiceTwo.backgroundColor = UIColor.clear;
+        choiceThree.backgroundColor = UIColor.clear;
+
         
         // Showing the progress bar based on the number of questions answered
         progessBar.progress = quizBrain.getProgress();
